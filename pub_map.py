@@ -5,7 +5,7 @@ import numpy as np
 from sensor_msgs.msg import PointCloud2, PointField
 import sensor_msgs.point_cloud2 as pc2
 
-def load_ply_to_pointcloud2(ply_file, frame_id="map", z_limit=1.0):
+def load_ply_to_pointcloud2(ply_file, frame_id="map", z_limit=3.0):
     # 使用 open3d 读取 ply 文件
     pcd = o3d.io.read_point_cloud(ply_file)
     points = np.asarray(pcd.points)
@@ -35,12 +35,12 @@ def main():
 
     ply_path = rospy.get_param("~ply_path", "map.ply")  # 默认路径，可通过 launch 传参
     frame_id = rospy.get_param("~frame_id", "world")
-    z_limit = rospy.get_param("~z_limit", 1.0)  # 默认 1m
+    z_limit = rospy.get_param("~z_limit", 3.5)  # 默认 3m
 
     rospy.loginfo(f"Loading point cloud from: {ply_path}")
     cloud_msg = load_ply_to_pointcloud2(ply_path, frame_id, z_limit)
 
-    rate = rospy.Rate(1)  # 1 Hz
+    rate = rospy.Rate(1)
     while not rospy.is_shutdown():
         cloud_msg.header.stamp = rospy.Time.now()
         pub.publish(cloud_msg)
