@@ -5,12 +5,13 @@ from safety_cost import ESDFCost
 from config import cfg
 
 class TrajectoryOptimizer:
-    def __init__(self, map_path):
+    def __init__(self, map_path, verbose=True):
         self.safety_cost = ESDFCost(map_path)
         self.Tf = cfg.Tf
         self.N = 10
         self.d0 = 1.2
         self.r = 0.4
+        self.verbose = verbose
 
     def init_state(self, p0, v0, a0, goal):
         self.p0, self.v0, self.a0 = p0, v0, a0
@@ -60,6 +61,8 @@ class TrajectoryOptimizer:
         nlp = {"x": x, "f": cost, "g": g}
         solver = ca.nlpsol("solver", "ipopt", nlp, {
             "ipopt.print_level": 0,
+            "print_time": self.verbose,  # 静默1: 禁止 CasADi 打印 solver 时间
+            "ipopt.sb": "yes",  # 静默2: (silent mode) 静默 ipopt banner
             "ipopt.max_cpu_time": 0.1,  # 限制求解时间为 0.5 秒
             "ipopt.tol": 1e-3,  # 放宽精度
             "ipopt.acceptable_tol": 1e-2,  # 可接受解
