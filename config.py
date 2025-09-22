@@ -9,7 +9,7 @@ class Config:
 
         self.smoothness_weight = 10.0
         self.safety_weight = 0.1
-        self.goal_weight = 0.1
+        self.goal_weight = 0.12
 
         self.smoothness_weight = self.smoothness_weight / self.v_max ** 5
         self.safety_weight = self.safety_weight * self.v_max

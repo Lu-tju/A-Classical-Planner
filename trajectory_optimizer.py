@@ -10,7 +10,7 @@ class TrajectoryOptimizer:
         self.Tf = cfg.Tf
         self.N = 10
         self.d0 = 1.2
-        self.r = 0.4
+        self.r = 0.6
         self.verbose = verbose
 
     def init_state(self, p0, v0, a0, goal):
