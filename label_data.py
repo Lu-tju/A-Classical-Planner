@@ -167,6 +167,7 @@ if __name__ == "__main__":
     base_path = "/home/lu/YOPO/dataset/"
     num_dirs = len([d for d in os.listdir(base_path) if os.path.isdir(os.path.join(base_path, d))])
     for dataset_id in range(num_dirs):
+        print(f"Labeling the {dataset_id} dataset...")
         optimizer = TrajectoryOptimizer(base_path + f"pointcloud-{dataset_id}.ply", verbose=False)
         gen = DataGenerator(optimizer)
         gen.load_dataset(base_path + f"pose-{dataset_id}.csv")
